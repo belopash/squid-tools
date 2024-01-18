@@ -4,7 +4,9 @@
   "description": "",
   "repository": "git@github.com:belopash/squid-tools.git",
   "main": "lib/index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "rm -rf lib && tsc"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
