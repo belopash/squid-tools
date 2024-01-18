@@ -1,15 +1,14 @@
 {
   "name": "@belopash/mock-store",
   "version": "0.0.0",
-  "description": "",
   "repository": "git@github.com:belopash/squid-tools.git",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@subsquid/util-internal-processor-tools": "~4.0.0"
   },
