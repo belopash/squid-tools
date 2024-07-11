@@ -1,6 +1,6 @@
 {
   "name": "@belopash/mock-store",
-  "version": "0.0.0",
+  "version": "0.1.0-beta.27937a",
   "repository": "git@github.com:belopash/squid-tools.git",
   "publishConfig": {
     "access": "public"
