@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@belopash/mock-store",
+      "comment": "add transactHot2 support",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@belopash/mock-store"
+}
