@@ -1,0 +1,37 @@
+name: prerelease
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Configure git user
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Write npm credentials
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> common/config/rush/.npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> common/config/rush/.npmrc-publish
+          cd common/config/rush && npm whoami
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: Install dependencies
+        run: node common/scripts/install-run-rush.js install
+
+      - name: Build project
+        run: node common/scripts/install-run-rush.js build
+
+      - name: Publish npm packages
+        run: |
+          node common/scripts/install-run-rush.js publish --apply --prerelease-name beta-${GITHUB_SHA::6} --partial-prerelease --target-branch master --publish --tag beta
+          git reset --hard HEAD
