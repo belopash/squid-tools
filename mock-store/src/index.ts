@@ -24,9 +24,26 @@ export class MockDatabase<S> {
     }
 
     async transactHot(info: HotTxInfo, cb: (store: S, block: HashAndHeight) => Promise<void>): Promise<void> {
+        return this.transactHot2(info, async (store, sliceBeg, sliceEnd) => {
+            for (let i = sliceBeg; i < sliceEnd; i++) {
+                await cb(store, info.newBlocks[i])
+            }
+        })
+    }
+
+    async transactHot2(info: HotTxInfo, cb: (store: S, sliceBeg: number, sliceEnd: number) => Promise<void>): Promise<void> {
         const store = this.createStore()
-        for (let b of info.newBlocks) {
-            await cb(store, b)
+
+        if (info.newBlocks.length) {
+            let finalizedEnd = info.finalizedHead.height - info.newBlocks[0].height + 1
+            if (finalizedEnd > 0) {
+                await cb(store, 0, finalizedEnd)
+            } else {
+                finalizedEnd = 0
+            }
+            for (let i = finalizedEnd; i < info.newBlocks.length; i++) {
+                await cb(store, i, i + 1)
+            }
         }
     }
 

@@ -33,5 +33,5 @@ jobs:
 
       - name: Publish npm packages
         run: |
-          node common/scripts/install-run-rush.js publish --apply --prerelease-name beta-${GITHUB_SHA::6} --partial-prerelease --target-branch master --publish --tag beta
+          node common/scripts/install-run-rush.js publish --apply --prerelease-name beta.${GITHUB_SHA::6} --partial-prerelease --target-branch master --publish --tag beta
           git reset --hard HEAD
